@@ -9,32 +9,48 @@ pub struct Player {
     position: [f64; 2],
     speed: f64,
     current_action: PlayerAction,
-    animations: HashMap<String, Animation>
+    animations: HashMap<String, Animation>,
+    size: (i32, i32)
 }
 
 impl Player {
     pub fn new() -> Self {
         let player_ani = Animation::load_from_json("./assets/data/skeleton.animations.json");
+        let max_width = player_ani.values().map(|ani| (ani.width * ani.x_scale) as i32).into_iter().max().unwrap_or(0);
+        let max_height = player_ani.values().map(|ani| (ani.height * ani.y_scale) as i32).into_iter().max().unwrap_or(0);
         Player {
             position: [0.0, 0.0],
             speed: 5.0,
             current_action: IDLE,
-            animations: player_ani
+            animations: player_ani,
+            size: (max_width, max_height)
         }
     }
     pub fn move_up(&mut self) {
-        self.position[1] -= self.speed;
+        let new_y_position = self.position[1] - self.speed;
+        if new_y_position >= 0.0 {
+            self.position[1] = new_y_position;
+        }
     }
-    pub fn move_down(&mut self) {
-        self.position[1] += self.speed;
+    pub fn move_down(&mut self, limit: f64) {
+        let new_y_position = self.position[1] + self.speed + (self.size.1 as f64);
+        if new_y_position <= limit {
+            self.position[1] += self.speed;
+        }
     }
-    pub fn move_right(&mut self) {
-        self.position[0] += self.speed;
-        self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Normal);
+    pub fn move_right(&mut self, limit: f64) {
+        let new_x_position = self.position[0] + self.speed + (self.size.0 as f64);
+        if new_x_position <= limit {
+            self.position[0] += self.speed;
+            self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Normal);
+        }
     }
     pub fn move_left(&mut self) {
-        self.position[0] -= self.speed;
-        self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Flipped);
+        let new_x_position = self.position[0] - self.speed;
+        if new_x_position >= 0.0 {
+            self.position[0] = new_x_position;
+            self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Flipped);
+        }
     }
     pub fn change_action(&mut self, action: PlayerAction) {
         self.current_action = action;
@@ -44,5 +60,13 @@ impl Player {
         let [x, y] = self.position;
         self.animations.get_mut(self.current_action).unwrap()
             .render(transform.trans(x, y), gl);
+    }
+    #[allow(dead_code)]
+    pub fn get_position(&self) -> [f64; 2] {
+        self.position
+    }
+    #[allow(dead_code)]
+    pub fn get_speed(&self) -> f64 {
+        self.speed
     }
 }

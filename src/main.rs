@@ -6,6 +6,8 @@ extern crate serde;
 extern crate serde_json;
 
 use crate::piston::EventLoop;
+
+use piston::Window;
 use piston::window::WindowSettings;
 use piston::event_loop::{EventSettings, Events};
 use piston::input::{PressEvent, ReleaseEvent, RenderEvent, UpdateEvent};
@@ -22,12 +24,13 @@ fn main() {
     let mut window: GlutinWindow = WindowSettings::new("Player", [640, 480])
             .graphics_api(opengl)
             .exit_on_esc(true)
+            // .fullscreen(true)
             .build()
             .unwrap();
 
     let mut gl = GlGraphics::new(opengl);
-
-    let mut app = App::new();
+    
+    let mut app = App::new(window.size().into());
 
     let mut events = Events::new(EventSettings::new());
     events.set_ups(60);

@@ -3,13 +3,15 @@ use piston::input::{Button, Key, RenderArgs, UpdateArgs};
 use player::*;
 
 pub struct App {
-    player: Player
+    player: Player,
+    window_size: (f64, f64)
 }
 
 impl App {
-    pub fn new() -> Self {
+    pub fn new(window_size: (f64, f64)) -> Self {
         App {
-            player: Player::new()
+            player: Player::new(),
+            window_size
         }
     }
 
@@ -30,19 +32,20 @@ impl App {
 
     pub fn press(&mut self, args: &Button) {
         let mut moved = true;
+        let (window_width, window_height) = self.window_size;
         if let &Button::Keyboard(key) = args {
             match key {
                 Key::W => {
                     self.player.move_up();
                 }
                 Key::S => {
-                    self.player.move_down();
+                    self.player.move_down(window_height);
                 }
                 Key::A => {
                     self.player.move_left();
                 }
                 Key::D => {
-                    self.player.move_right();
+                    self.player.move_right(window_width);
                 }
                 _ => {
                     moved = false;
