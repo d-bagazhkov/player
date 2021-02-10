@@ -1,0 +1,50 @@
+{
+    "walk": {
+        "filepath_animation": "assets/sprites/Skeleton Walk.png",
+        "framerate": 40,
+        "width": 22,
+        "height": 33,
+        "horizontal_orientation": "Normal",
+        "vertical_orientation": "Normal",
+        "x_scale": 3.0,
+        "y_scale": 3.0,
+        "frames": [
+            [0.0, 0.0],
+            [22.0, 0.0],
+            [44.0, 0.0],
+            [66.0, 0.0],
+            [88.0, 0.0],
+            [110.0, 0.0],
+            [132.0, 0.0],
+            [154.0, 0.0],
+            [176.0, 0.0],
+            [198.0, 0.0],
+            [220.0, 0.0],
+            [242.0, 0.0],
+            [264.0, 0.0]
+        ]
+    },
+    "idle": {
+        "filepath_animation": "assets/sprites/Skeleton Idle.png",
+        "framerate": 70,
+        "width": 24,
+        "height": 32,
+        "horizontal_orientation": "Normal",
+        "vertical_orientation": "Normal",
+        "x_scale": 3.0,
+        "y_scale": 3.0,
+        "frames": [
+            [0.0, 0.0],
+            [24.0, 0.0],
+            [48.0, 0.0],
+            [72.0, 0.0],
+            [96.0, 0.0],
+            [120.0, 0.0],
+            [144.0, 0.0],
+            [168.0, 0.0],
+            [192.0, 0.0],
+            [216.0, 0.0],
+            [240.0, 0.0]
+        ]
+    }
+}
