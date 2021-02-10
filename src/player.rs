@@ -10,7 +10,7 @@ pub struct Player {
     speed: f64,
     current_action: PlayerAction,
     animations: HashMap<String, Animation>,
-    size: (i32, i32)
+    size: (i32, i32),
 }
 
 impl Player {
@@ -27,30 +27,18 @@ impl Player {
         }
     }
     pub fn move_up(&mut self) {
-        let new_y_position = self.position[1] - self.speed;
-        if new_y_position >= 0.0 {
-            self.position[1] = new_y_position;
-        }
+        self.position[1] -= self.speed;
     }
-    pub fn move_down(&mut self, limit: f64) {
-        let new_y_position = self.position[1] + self.speed + (self.size.1 as f64);
-        if new_y_position <= limit {
-            self.position[1] += self.speed;
-        }
+    pub fn move_down(&mut self) {
+        self.position[1] += self.speed;
     }
-    pub fn move_right(&mut self, limit: f64) {
-        let new_x_position = self.position[0] + self.speed + (self.size.0 as f64);
-        if new_x_position <= limit {
-            self.position[0] += self.speed;
-            self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Normal);
-        }
+    pub fn move_right(&mut self) {
+        self.position[0] += self.speed;
+        self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Normal);
     }
     pub fn move_left(&mut self) {
-        let new_x_position = self.position[0] - self.speed;
-        if new_x_position >= 0.0 {
-            self.position[0] = new_x_position;
-            self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Flipped);
-        }
+        self.position[0] -= self.speed;
+        self.animations.get_mut(self.current_action).unwrap().horizontal_orientation(Orientation::Flipped);
     }
     pub fn change_action(&mut self, action: PlayerAction) {
         self.current_action = action;
@@ -61,12 +49,13 @@ impl Player {
         self.animations.get_mut(self.current_action).unwrap()
             .render(transform.trans(x, y), gl);
     }
-    #[allow(dead_code)]
     pub fn get_position(&self) -> [f64; 2] {
         self.position
     }
-    #[allow(dead_code)]
     pub fn get_speed(&self) -> f64 {
         self.speed
+    }
+    pub fn get_size(&self) -> (f64, f64) {
+        (self.size.0 as f64, self.size.1 as f64)
     }
 }

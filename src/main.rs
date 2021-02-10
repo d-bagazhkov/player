@@ -1,3 +1,4 @@
+#![windows_subsystem = "windows"]
 extern crate glutin_window;
 extern crate graphics;
 extern crate opengl_graphics;
@@ -24,6 +25,7 @@ fn main() {
     let mut window: GlutinWindow = WindowSettings::new("Player", [640, 480])
             .graphics_api(opengl)
             .exit_on_esc(true)
+            .resizable(true)
             // .fullscreen(true)
             .build()
             .unwrap();

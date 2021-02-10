@@ -4,14 +4,16 @@ use player::*;
 
 pub struct App {
     player: Player,
-    window_size: (f64, f64)
+    window_size: (f64, f64),
+    gravity: f64
 }
 
 impl App {
     pub fn new(window_size: (f64, f64)) -> Self {
         App {
             player: Player::new(),
-            window_size
+            window_size,
+            gravity: 7.0
         }
     }
 
@@ -33,19 +35,34 @@ impl App {
     pub fn press(&mut self, args: &Button) {
         let mut moved = true;
         let (window_width, window_height) = self.window_size;
+        let [px, py] = self.player.get_position();
+        let speed = self.player.get_speed();
+        let (player_width, player_height) = self.player.get_size();
         if let &Button::Keyboard(key) = args {
             match key {
                 Key::W => {
-                    self.player.move_up();
+                    let new_y_position = py - speed;
+                    if new_y_position >= 0.0 {
+                        self.player.move_up();
+                    }
                 }
                 Key::S => {
-                    self.player.move_down(window_height);
+                    let new_y_position = py + speed + player_height;
+                    if new_y_position <= window_height {
+                        self.player.move_down();
+                    }
                 }
                 Key::A => {
-                    self.player.move_left();
+                    let new_x_position = px - speed;
+                    if new_x_position >= 0.0 {
+                        self.player.move_left();
+                    }
                 }
                 Key::D => {
-                    self.player.move_right(window_width);
+                    let new_x_position = px + speed + player_width;
+                    if new_x_position <= window_width {
+                        self.player.move_right();
+                    }
                 }
                 _ => {
                     moved = false;
