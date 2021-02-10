@@ -43,6 +43,9 @@ impl Player {
     pub fn change_action(&mut self, action: PlayerAction) {
         self.current_action = action;
     }
+    pub fn get_current_action(&self) -> PlayerAction {
+        self.current_action
+    }
     pub fn render(&mut self, transform: graphics::math::Matrix2d, gl: &mut opengl_graphics::GlGraphics) {
         use graphics::*;
         let [x, y] = self.position;
@@ -51,6 +54,9 @@ impl Player {
     }
     pub fn get_position(&self) -> [f64; 2] {
         self.position
+    }
+    pub fn change_y_position(&mut self, y: f64) {
+        self.position[1] = y
     }
     pub fn get_speed(&self) -> f64 {
         self.speed

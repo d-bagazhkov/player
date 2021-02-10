@@ -29,7 +29,14 @@ impl App {
     }
 
     pub fn update(&mut self, _args: &UpdateArgs) {
-        
+        //gravity use
+        let (_, window_height) = self.window_size;
+        let [_, py] = self.player.get_position();
+        let (_, player_height) = self.player.get_size();
+        let new_y_position = py + self.gravity + player_height;
+        if new_y_position <= window_height && self.player.get_current_action() != WALK {
+            self.player.change_y_position(py + self.gravity);
+        }
     }
 
     pub fn press(&mut self, args: &Button) {
