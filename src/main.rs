@@ -15,6 +15,7 @@ use app::*;
 
 mod animation;
 mod app;
+mod player;
 
 fn main() {
     let opengl = OpenGL::V3_2;
